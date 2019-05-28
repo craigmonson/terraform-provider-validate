@@ -1,0 +1,14 @@
+data "validate_str" "exact" {
+  val   = "foo"
+  exact = "bar"
+}
+
+data "validate_str" "one_of" {
+  val    = "foo"
+  one_of = ["bar", "baz"]
+}
+
+data "validate_str" "regex" {
+  val   = "foo"
+  regex = "b.."
+}
