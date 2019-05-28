@@ -1,14 +1,14 @@
-data "validate_str" "exact" {
+data "validate" "exact" {
   val   = "foo"
   exact = "foo"
 }
 
-data "validate_str" "one_of" {
+data "validate" "one_of" {
   val    = "foo"
   one_of = ["foo", "bar", "baz"]
 }
 
-data "validate_str" "regex" {
+data "validate" "regex" {
   val   = "foo"
   regex = "f.."
 }

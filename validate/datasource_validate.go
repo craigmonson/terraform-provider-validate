@@ -6,9 +6,9 @@ import (
 	"regexp"
 )
 
-func dataSourceValidateStr() *schema.Resource {
+func dataSourceValidate() *schema.Resource {
 	return &schema.Resource{
-		Read: dataSourceTestStr,
+		Read: dataSourceTest,
 
 		Schema: map[string]*schema.Schema{
 			"val": {
@@ -42,7 +42,7 @@ func dataSourceValidateStr() *schema.Resource {
 	}
 }
 
-func dataSourceTestStr(d *schema.ResourceData, meta interface{}) error {
+func dataSourceTest(d *schema.ResourceData, meta interface{}) error {
 	check_type, err := getCheckType(d)
 	if err != nil {
 		return err
@@ -50,25 +50,25 @@ func dataSourceTestStr(d *schema.ResourceData, meta interface{}) error {
 
 	switch check_type {
 	case "exact":
-		return checkExactStr(d.Get("val").(string), d.Get("exact").(string))
+		return checkExact(d.Get("val").(string), d.Get("exact").(string))
 	case "one_of":
-		return checkOneOfStr(d.Get("val").(string), d.Get("one_of").([]interface{}))
+		return checkOneOf(d.Get("val").(string), d.Get("one_of").([]interface{}))
 	case "regex":
-		return checkRegexStr(d.Get("val").(string), d.Get("regex").(string))
+		return checkRegex(d.Get("val").(string), d.Get("regex").(string))
 	}
 
 	return nil
 }
 
-func checkExactStr(val, check string) error {
+func checkExact(val, check string) error {
 	if val != check {
-		return fmt.Errorf("%s does not match %s for exact", val, check)
+		return fmt.Errorf("val: '%s' does not match '%s' for exact", val, check)
 	}
 
 	return nil
 }
 
-func checkOneOfStr(val string, list []interface{}) error {
+func checkOneOf(val string, list []interface{}) error {
 	for _, c := range list {
 		if val == c.(string) {
 			return nil
@@ -78,7 +78,7 @@ func checkOneOfStr(val string, list []interface{}) error {
 	return fmt.Errorf("val '%s' is not in  list: %v", val, list)
 }
 
-func checkRegexStr(val, pattern string) error {
+func checkRegex(val, pattern string) error {
 	reg, err := regexp.Compile(pattern)
 	if err != nil {
 		return err

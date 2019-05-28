@@ -8,7 +8,7 @@ import (
 )
 
 func TestGetCheckTypeExact(t *testing.T) {
-	res := dataSourceValidateStr()
+	res := dataSourceValidate()
 	m := make(map[string]interface{}, 3)
 
 	m["val"] = "foo"
@@ -25,7 +25,7 @@ func TestGetCheckTypeExact(t *testing.T) {
 }
 
 func TestGetCheckTypeOneOf(t *testing.T) {
-	res := dataSourceValidateStr()
+	res := dataSourceValidate()
 	m := make(map[string]interface{}, 3)
 
 	m["val"] = "foo"
@@ -42,7 +42,7 @@ func TestGetCheckTypeOneOf(t *testing.T) {
 }
 
 func TestGetCheckTypeRegex(t *testing.T) {
-	res := dataSourceValidateStr()
+	res := dataSourceValidate()
 	m := make(map[string]interface{}, 3)
 
 	m["val"] = "foo"
@@ -59,7 +59,7 @@ func TestGetCheckTypeRegex(t *testing.T) {
 }
 
 func TestGetCheckTypeNone(t *testing.T) {
-	res := dataSourceValidateStr()
+	res := dataSourceValidate()
 	m := make(map[string]interface{}, 3)
 
 	m["val"] = "foo"
@@ -74,70 +74,70 @@ func TestGetCheckTypeNone(t *testing.T) {
 	}
 }
 
-func TestExactStrPass(t *testing.T) {
-	err := checkExactStr("foo", "foo")
+func TestExactPass(t *testing.T) {
+	err := checkExact("foo", "foo")
 
 	if err != nil {
 		t.Errorf("Exact check failed: 'foo' vs 'foo'")
 	}
 }
 
-func TestExactStrFail(t *testing.T) {
-	err := checkExactStr("foo", "bar")
+func TestExactFail(t *testing.T) {
+	err := checkExact("foo", "bar")
 
 	if err == nil {
 		t.Errorf("Exact check did not fail: 'foo' vs 'bar'")
 	}
 }
 
-func TestCheckOneOfStrPass(t *testing.T) {
-	res := dataSourceValidateStr()
+func TestCheckOneOfPass(t *testing.T) {
+	res := dataSourceValidate()
 	m := make(map[string]interface{}, 2)
 
 	m["val"] = "foo"
 	m["one_of"] = []string{"foo"}
 	res_data := th.GetResourceData(t, m, res)
 
-	err := checkOneOfStr("foo", res_data.Get("one_of").([]interface{}))
+	err := checkOneOf("foo", res_data.Get("one_of").([]interface{}))
 
 	if err != nil {
 		t.Error("one_of check failed: 'foo' vs '[foo]'")
 	}
 }
 
-func TestCheckOneOfStrFail(t *testing.T) {
-	res := dataSourceValidateStr()
+func TestCheckOneOfFail(t *testing.T) {
+	res := dataSourceValidate()
 	m := make(map[string]interface{}, 2)
 
 	m["val"] = "foo"
 	m["one_of"] = []string{"bar"}
 	res_data := th.GetResourceData(t, m, res)
 
-	err := checkOneOfStr("foo", res_data.Get("one_of").([]interface{}))
+	err := checkOneOf("foo", res_data.Get("one_of").([]interface{}))
 
 	if err == nil {
 		t.Error("one_of check did not fail: 'foo' vs '[bar]'")
 	}
 }
 
-func TestCheckRegexStrPass(t *testing.T) {
-	err := checkRegexStr("foo", "f..")
+func TestCheckRegexPass(t *testing.T) {
+	err := checkRegex("foo", "f..")
 
 	if err != nil {
 		t.Error("regex check failed: 'foo' vs '/foo/'")
 	}
 }
 
-func TestCheckRegexStrFail(t *testing.T) {
-	err := checkRegexStr("foo", "/bar/")
+func TestCheckRegexFail(t *testing.T) {
+	err := checkRegex("foo", "/bar/")
 
 	if err == nil {
 		t.Error("regex check did not fail: 'foo' vs '/bar/'")
 	}
 }
 
-func TestCheckRegexStrBadRegex(t *testing.T) {
-	err := checkRegexStr("foo", "/[0-9]++/")
+func TestCheckRegexBadRegex(t *testing.T) {
+	err := checkRegex("foo", "/[0-9]++/")
 
 	if err == nil {
 		t.Error("regex with bad pattern did not fail")
