@@ -25,16 +25,16 @@ apply:
 .PHONY: tf-test       # terraform init, plan and apply for integration test
 tf-test: init plan apply
 
-.PHONY: plan-fail  # terraform plan for FAILING integration test
+.PHONY: plan-fail     # terraform plan for FAILING integration test
 plan-fail: 
 	@echo "THIS SHOULD FAIL TO PLAN"
 	@echo "THIS SHOULD FAIL TO PLAN"
 	@echo "THIS SHOULD FAIL TO PLAN"
-	cp test-provider-pass.tf test-provider-pass.tf.bak
-	cp test-provider-fail.tf.bak test-provider-fail.tf
+	mv test-provider-pass.tf test-provider-pass.tf.bak
+	mv test-provider-fail.tf.bak test-provider-fail.tf
 	-terraform plan
-	cp test-provider-pass.tf.bak test-provider-pass.tf
-	cp test-provider-fail.tf test-provider-fail.tf.bak
+	mv test-provider-pass.tf.bak test-provider-pass.tf
+	mv test-provider-fail.tf test-provider-fail.tf.bak
 
 .PHONY: tf-test-fail  # terraform init, plan for FAILING integration test
 tf-test-fail: init plan-fail
