@@ -1,0 +1,5 @@
+*.sw*
+*.tfstate*
+.terraform
+crash.log
+terraform-provider-validate
