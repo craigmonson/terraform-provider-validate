@@ -409,3 +409,12 @@ func TestDataSourceTestMultipleErrors(t *testing.T) {
 		}
 	}
 }
+
+func TestIsOptionalCheck(t *testing.T) {
+	if !isOptionalCheck("", true) {
+		t.Error("isOptionalCheck did not return true")
+	}
+	if isOptionalCheck("", false) {
+		t.Error("isOptionalCheck returned true")
+	}
+}

@@ -61,6 +61,12 @@ func dataSourceValidateSchema() *schema.Resource {
 				Description:   "RE2 regular expression string to NOT match (see: https://golang.org/s/re2syntax)",
 				ConflictsWith: []string{"exact", "not_exact", "one_of"},
 			},
+			"optional": {
+				Type:        schema.TypeBool,
+				Optional:    true,
+				Default:     false,
+				Description: "Allows this value to be empty: ''",
+			},
 		},
 	}
 }
@@ -69,6 +75,10 @@ func dataSourceTest(d *schema.ResourceData, meta interface{}) error {
 	check_types, err := getCheckTypes(d)
 	if err != nil {
 		return err
+	}
+
+	if isOptionalCheck(d.Get("val").(string), d.Get("optional").(bool)) {
+		return nil
 	}
 
 	errs := []error{}
@@ -117,6 +127,14 @@ func dataSourceTest(d *schema.ResourceData, meta interface{}) error {
 	}
 
 	return nil
+}
+
+var isOptionalCheck = func(val string, optional bool) bool {
+	if optional && val == "" {
+		return true
+	}
+
+	return false
 }
 
 var checkExact = func(val, check string) error {

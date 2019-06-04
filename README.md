@@ -61,6 +61,12 @@ data "validate" "not_regex" {
   val       = "${var.test_regex}"
   not_regex = "test_regex"
 }
+
+data "validate" "optional_exact" {
+  val      = "${var.test_optional_exact}"
+  exact    = "This variable is optional, so can be empty"
+  optional = true
+}
 ```
 
 The `validate` data source will validate input values against a validation check.  When
@@ -73,6 +79,7 @@ example) meet a desired set of criteria.
 The following arguments are supported:
 
   * `val` - (Required) The value to be checked.  This should be a variable, and is expected to be a string.
+  * `optional` - (Optional) (bool) (Default: false) If set to true, this will allow the check to be optional.  If it's empty, ie: "", then the check will pass, regardless if it passes the underlying check.
 
 At least one of these arguments must also exist, but combinations are possible (see conflict matrix):
 
