@@ -37,18 +37,33 @@ data "validate" "exact" {
   exact = "test_exact"
 }
 
+data "validate" "not_exact" {
+  val       = "${var.test_exact}"
+  not_exact = "test_exact"
+}
+
 data "validate" "one_of" {
   val    = "${var.test_one_of}"
   one_of = ["test_one_of"]
 }
 
+data "validate" "not_one_of" {
+  val        = "${var.test_one_of}"
+  not_one_of = ["test_one_of"]
+}
+
 data "validate" "regex" {
   val   = "${var.test_regex}"
-  regex = ["test_regex"]
+  regex = "test_regex"
+}
+
+data "validate" "not_regex" {
+  val       = "${var.test_regex}"
+  not_regex = "test_regex"
 }
 ```
 
-The `validate` data source will validate input values against a validation check.  IWhen
+The `validate` data source will validate input values against a validation check.  When
 `terraform plan` is run, the values will be validated against the check, and will raise
 an error if it fails.  This allows for ensuring any data requirements (tagging for
 example) meet a desired set of criteria.
@@ -58,9 +73,27 @@ example) meet a desired set of criteria.
 The following arguments are supported:
 
   * `val` - (Required) The value to be checked.  This should be a variable, and is expected to be a string.
-  * `exact` - (Optional) (a string) Check `val` is an exact match of this argument.  `exact`, `one_of` and `regex` are mutually exclusive, but one must exist in the data source.
-  * `one_of` - (Optional) (a list) Check `val` is an exact match of one of the items in this list.  `exact`, `one_of` and `regex` are mutually exclusive, but one must exist in the data source.
-  * `regex` - (Optional) (a string) Check `val` matches the regular expression expressed as this string.  This utilizes the RE2 regular expression syntax, which can be found [here](https://golang.org/s/re2syntax). `exact`, `one_of` and `regex` are mutually exclusive, but one must exist in the data source.
+
+At least one of these arguments must also exist, but combinations are possible (see conflict matrix):
+
+  * `exact` - (Optional) (a string) Check `val` is an exact match of this argument.
+  * `not_exact` - (Optional) (a string) Check `val` can not match exactly this argument.
+  * `one_of` - (Optional) (a list) Check `val` is an exact match of one of the items in this list.
+  * `not_one_of` - (Optional) (a list) Check `val` can not exactly match one of the items in this list.
+  * `regex` - (Optional) (a string) Check `val` matches the regular expression expressed as this string.  This utilizes the RE2 regular expression syntax, which can be found [here](https://golang.org/s/re2syntax).
+  * `not_regex` - (Optional) (a string) Check `val` does not match the regular expression expressed as this string.  This utilizes the RE2 regular expression syntax, which can be found [here](https://golang.org/s/re2syntax).
+
+### Compatibility Matrix
+
+|                  | exact | not\_exact | one\_of | not\_one\_of | regex | not\_regex |
+|-----------------:|:-----:|:----------:|:-------:|:------------:|:-----:|:----------:|
+| **exact**        |       |      N     |    N    |      N       |   N   |     N      |
+| **not\_exact**   |   N   |            |    N    |      N       | **Y** |   **Y**    |
+| **one\_of**      |   N   |      N     |         |      N       |   N   |     N      |
+| **not\_one\_of** |   N   |      N     |    N    |              | **Y** |   **Y**    |
+| **regex**        |   N   |    **Y**   |    N    |    **Y**     |       |   **Y**    |
+| **not\_regex**   |   N   |    **Y**   |    N    |    **Y**     | **Y** |            |
+
 
 ### Attributes Reference
 
