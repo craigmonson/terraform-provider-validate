@@ -3,3 +3,5 @@
 .terraform
 crash.log
 terraform-provider-validate
+
+*.tar.gz

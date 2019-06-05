@@ -1,5 +1,5 @@
 # Terraform Provider - Validate
-[![Build Status](https://travis-ci.com/craigmonson/terraform-provider-validate.svg?branch=master)](https://travis-ci.com/craigmonson/terraform-provider-validate)
+[![Build Status](https://travis-ci.com/craigmonson/terraform-provider-validate.svg?branch=master)](https://travis-ci.com/craigmonson/terraform-provider-validate) [![Coverage Status](https://coveralls.io/repos/github/craigmonson/terraform-provider-validate/badge.svg?branch=master)](https://coveralls.io/github/craigmonson/terraform-provider-validate?branch=master)
 
 ## Maintainers
 

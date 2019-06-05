@@ -2,6 +2,10 @@
 help:  
 	@cat Makefile | grep PHONY | grep -v Makefile
 
+.PHONY: test-cover
+test-cover:
+	go test ./...
+
 .PHONY: test          # run 'go test'
 test:
 	cd validate && go test
@@ -9,6 +13,30 @@ test:
 .PHONY: build         # build the provider as terraform-provider-validate
 build:
 	go build -o terraform-provider-validate
+
+.PHONY: build-darwin  # go build darwin amd64 and 386 versions
+build-darwin:
+	GOOS=darwin GOARCH=amd64 go build -o terraform-provider-validate
+	tar -zcvf terraform-provider-validate.darwin-amd64.tar.gz terraform-provider-validate
+	GOOS=darwin GOARCH=386 go build -o terraform-provider-validate
+	tar -zcvf terraform-provider-validate.darwin-386.tar.gz terraform-provider-validate
+
+.PHONY: build-linux   # go build linux amd64 and 386 versions
+build-linux:
+	GOOS=linux GOARCH=amd64 go build -o terraform-provider-validate
+	tar -zcvf terraform-provider-validate.linux-amd64.tar.gz terraform-provider-validate
+	GOOS=linux GOARCH=386 go build -o terraform-provider-validate
+	tar -zcvf terraform-provider-validate.linux-386.tar.gz terraform-provider-validate
+
+.PHONY: build-doz     # go build windows amd64 and 386 versions
+build-doz:
+	GOOS=windows GOARCH=amd64 go build -o terraform-provider-validate
+	tar -zcvf terraform-provider-validate.windows-amd64.tar.gz terraform-provider-validate
+	GOOS=windows GOARCH=386 go build -o terraform-provider-validate
+	tar -zcvf terraform-provider-validate.windows-386.tar.gz terraform-provider-validate
+
+.PHONY: build-all     # run build-darwin build-linux and build-doz
+build-all: build-darwin build-linux build-doz
 
 .PHONY: init          # terraform init to test integration
 init:

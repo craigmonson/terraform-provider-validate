@@ -21,3 +21,19 @@ notifications:
 
 script:
   - make test
+  - make build-all
+
+deploy:
+  provider: releases
+  api_key: "GITHUB OAUTH TOKEN"
+  file:
+    - terraform-provider-validate.darwin-amd64.tar.gz
+    - terraform-provider-validate.darwin-386.tar.gz
+    - terraform-provider-validate.linux-amd64.tar.gz
+    - terraform-provider-validate.linux-386.tar.gz
+    - terraform-provider-validate.windows-amd64.tar.gz
+    - terraform-provider-validate.windows-386.tar.gz
+  skip_cleanup: true
+  overwrite: true
+  on:
+    tags: true
