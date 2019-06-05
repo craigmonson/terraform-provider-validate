@@ -1,4 +1,5 @@
 # Terraform Provider - Validate
+[![Build Status](https://travis-ci.com/craigmonson/terraform-provider-validate.svg?branch=master)](https://travis-ci.com/craigmonson/terraform-provider-validate)
 
 ## Maintainers
 
