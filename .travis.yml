@@ -10,8 +10,8 @@ install:
 notifications:
   email: false
 script:
-- cd validate && go test -v -covermode=count -coverprofile=../coverage.out
-- $HOME/gopath/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken=$COVERALLS_TOKEN
+- cd validate && go test -v -covermode=count -coverprofile=coverage.out
+- $HOME/gopath/bin/goveralls -coverprofile=validate/coverage.out -service=travis-ci -repotoken=$COVERALLS_TOKEN
 - make build-all
 deploy:
   provider: releases
