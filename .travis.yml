@@ -18,17 +18,17 @@ script:
 deploy:
   provider: releases
   api_key:
-    secure: VyqEgg1HXlWPoKX4+DVwNDeIvJNYVkPiGdv0quC6qdBdb+SY33wpwh4mSWyr1ZFGBTsjL8WsGR7V6Sgr/YYseqW47n9rkhUAlPghlMqP04OevHgz5Zau/urF6X6kzjoW3Df4KAmtQTSJ4Tz0TcOCO7uTqt+xnSpdIdpHnI2PeOGV64gex83MvvlpXB4NumMInY5kfHdP9FOSbKIUMAu+CXcMbbNRU24yfyd4c9B9FVEqPGxMoieA1RI3tBlMyFFh+A3Ps2LCOY4G7jum0fyxrUfJWyW8e6bh951VCzw7r9RKVKYDHLVqQ3k4OB2atwNXHrp+GgyeuR3HsrCo1TTDpMorZtVqaCcyXrkCrWEOb6T1/DvATfz0FhcVYnl2N8ZM8hne6jTQDmQ1L47CpaENGoe9fe2phXpfl6py/We9AteevqfWh11K1B2h+J04CW99uORd0yPUAp8f7v17PlZVsJeGeu85vyDCdT5t6kAKY94NEtkm4s8xAlkaRlzw+R9iGJA6AP1xD3LGOlFKdHSim1hYSODm38p3aurjY0EzsCFijPGVmJwBZZHUkUwxBai4md1DYdgt05Mpcyv31IewnpnSyEdRPVq1MwYSNGHBKx3MS0J+7yHWacVxULMHfpwazI87LRHawO3GSoiLAP+P1K/ZBLWJfK43OfsWdtj9Fww=
+    secure: X9oo1DfVVUnT//rEnNgOsA3RpPVw+9Hk/Y9Z9V4hsy1Rnf7eUhjaOZ2DjeBLmaaB9OKRxfMwz9i8kbA0fPV0C8DYsxrjWVmqSy0SYsxbbzbBLLECCBrG8szYQX+Q6tZkOyC3Y7130NJvaJLpk1ufbIbpS32OnY26P2z0kLEzPK6YKnrsWM3J0hR31jW01eUTuqil3cDfNpVrA3Di2FhXMlolvpam5iip9Jg+AXFa4/PqXO2Ikj1SZ+R8jATkTZb/YlrIxIvZmJSOUBjpz4uxnKEj9147Yx0jBRrK3wEUdlX/p+spr7lkkUOnDNXK/4GbzUy3HEXkP165aV/go/v/VwDnfui+coB3IgFQw1WuhERDD2LpvTZqCdsWnWZBb6Eh9czjXQIwMy2YloZMnIP9ccqg6sGRhdK/tcaD8LgBQRkavlYMPR5xNkvKKD3y3aVCTGI20POgIwU0Pw+Z0WqIy/oclBeS+AkMKbeH7opKgJu94Xskv+rgnk5tEAtzATtcn88C6m5huHaNtXoRNzoGrTcA8cEqSrPurOqidVIbO6NyVF68zs6dkhXA3KaS9QJ/Jc/E3wtTojQo+L3LsIR2paXA/YeqGUUvltfkGybKQwPVXkGgwzmlx5Fs9WelmxEwO/upZQz/iNM7J7fCLmHwiyG1r1EBywCwU1dOIrGorMc=
   file:
-  - terraform-provider-validate.darwin-amd64.tar.gz
-  - terraform-provider-validate.darwin-386.tar.gz
-  - terraform-provider-validate.linux-amd64.tar.gz
-  - terraform-provider-validate.linux-386.tar.gz
-  - terraform-provider-validate.windows-amd64.tar.gz
-  - terraform-provider-validate.windows-386.tar.gz
+    - terraform-provider-validate.darwin-amd64.tar.gz
+    - terraform-provider-validate.darwin-386.tar.gz
+    - terraform-provider-validate.linux-amd64.tar.gz
+    - terraform-provider-validate.linux-386.tar.gz
+    - terraform-provider-validate.windows-amd64.tar.gz
+    - terraform-provider-validate.windows-386.tar.gz
   skip_cleanup: true
-  overwrite: true
   on:
+    repo: craigmonson/terraform-provider-validate
     tags: true
 env:
   global:
