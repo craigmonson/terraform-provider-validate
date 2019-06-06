@@ -1,39 +1,33 @@
 dist: xenial
-
 language: go
-
-# You don't need to test on very old versions of the Go compiler. It's the user's
-# responsibility to keep their compiler up to date.
 go:
-  - 1.12.x
-
-# Only clone the most recent commit.
+- 1.12.x
+install:
+  - go get golang.org/x/tools/cmd/cover
+  - go get github.com/mattn/goveralls
 git:
   depth: 1
-
-# Skip the install step. Don't `go get` dependencies. Only build with the code
-# in vendor/
 install: false
-
-# Don't email me the results of the test runs.
 notifications:
   email: false
-
 script:
-  - make test
-  - make build-all
-
+- go test -v -covermode=count -coverprofile=coverage.out $HOME/gopath/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN
+- make build-all
 deploy:
   provider: releases
-  api_key: "GITHUB OAUTH TOKEN"
+  api_key: $GITHUB_TOKEN
   file:
-    - terraform-provider-validate.darwin-amd64.tar.gz
-    - terraform-provider-validate.darwin-386.tar.gz
-    - terraform-provider-validate.linux-amd64.tar.gz
-    - terraform-provider-validate.linux-386.tar.gz
-    - terraform-provider-validate.windows-amd64.tar.gz
-    - terraform-provider-validate.windows-386.tar.gz
+  - terraform-provider-validate.darwin-amd64.tar.gz
+  - terraform-provider-validate.darwin-386.tar.gz
+  - terraform-provider-validate.linux-amd64.tar.gz
+  - terraform-provider-validate.linux-386.tar.gz
+  - terraform-provider-validate.windows-amd64.tar.gz
+  - terraform-provider-validate.windows-386.tar.gz
   skip_cleanup: true
   overwrite: true
   on:
     tags: true
+env:
+  global:
+  - secure: LqsN8r3/tkJNHe9BVDdp7cw4Amoj3NI7NrTvCHQMToLRRb+Q0gP/b+CqSUySt4lrYTWHDMXgSGkedy2Awab+NAt74ieXQD5T2aHrX5K9nwDkQy2LMiT9v775hDiv+3KrCF14ItwUy7P61y/LjaEFH/Zip2n2kw914z4OP9HFG+U8gQwEhX+OvIYRaEKOEBUh/Z4KSy8Jog5wCdI8AtbvxUuqnS5dxK+2JszgnhI8kyTeZtv6Okuoi4rmfLoxT1KLNJDoCunfCIWlSjX7KCu8DoTSyTszqwh+RyexHKYctNyG3TwdxOn77NKNwlfERkfvq+eeF516KQK0oaNiT8DCDMFB5zPdjfZJS/2KYRE1nVpcZSdSjxZK2Jv5ZSy6btBb/XkRobN2/u8F4XPmYP+Cws/UtuXAZHULrqILRTsPZt8FBYDptYfd/8np3RfbqT/9RI4Nd6hlRkziaanovSXPGPUdjGXzz8MzGv3Y4Rec7ZEICPU7eO5ThpD7r6qsgY+pgvWH+K6snvNAp4JMOc8kwYi5ty38u2UOOmdJ58xnbvKN+eiVTYkiTIHOcK58YsnYjJnW7mPBJ7cuzS5tRuMjOE7uWLjWMoUpuWdPMUqYsKfxK9ftjIKby7XNJinl5PmdsK7OtEmjq3miDTZDwkHJKEyrz+29RSoHs0ihJZBJGkI=
+  - secure: EB6So4elp43a+ON4cBkh9B3ONHGIcwUn2CqnQKyQsplXPDnco14S2JlC5p9rfHXayA0QV+D4584E7dYZWk7JNdTTOJUOiQpGlsZk4oL6G6m1pRPNWGuyo5YpUmCEvOXizNM/W91627ewqXhQvGP1gww9mManpmkcd6Zr4czJGILNL8oahzyWWoRD34+ZsWYwoORq2tNRnK8vXszmNvEDraNLv1lgropVkX8MnAGpY2laF0104yrVZVtkdnAZZO2NRGnqpN5GnQ5pypkalagQlxfeZIT8quV2oOo2ysbzUee2r4D4lntBaKxyrR1+yNzY7kVaMlqBR84MXLJLgrw/xtAWNbVoLF2OHAA0w4d1GVyv8QmXPOmxdcG3a6yCS7z1bZkIwkxcas98YxD8x4oNVeu5Xvn/1d2cb1HHLFd1vsdqYt+kMLRkfDlJh3ft/kgcAZTFPGn3DQm78yKT8uweKGLuVDJIZqzK3RWy4LeeGvzMtakrN1x5WzymS27ZAawXUexLFk2Yc9vkOywCNjuQqT/ngG53Ds8pxQmoShHU9sh03ttd0AU86abIoya3k8jb3Af3dx9L1a7FqWbesyazfc/inLnD63nfcNIRqDgBRgKpx8KppUozY8xMUFb9aAZCxl1CWNsxlEfZDJI3tzNYp0SBHwtTe917UH8iwxqIaUI=
