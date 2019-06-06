@@ -2,18 +2,18 @@ dist: xenial
 language: go
 go:
 - 1.12.x
-install:
-  - go get golang.org/x/tools/cmd/cover
-  - go get github.com/mattn/goveralls
 git:
   depth: 1
-install: false
+install:
+- go get golang.org/x/tools/cmd/cover
+- go get github.com/mattn/goveralls
 notifications:
   email: false
 script:
-  - cd validate && go test -v -covermode=count -coverprofile=../coverage.out
-  - $HOME/gopath/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN
-  - make build-all
+- cd validate && go test -v -covermode=count -coverprofile=../coverage.out
+- $HOME/gopath/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken
+  $COVERALLS_TOKEN
+- make build-all
 deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
@@ -30,5 +30,5 @@ deploy:
     tags: true
 env:
   global:
-  - secure: LqsN8r3/tkJNHe9BVDdp7cw4Amoj3NI7NrTvCHQMToLRRb+Q0gP/b+CqSUySt4lrYTWHDMXgSGkedy2Awab+NAt74ieXQD5T2aHrX5K9nwDkQy2LMiT9v775hDiv+3KrCF14ItwUy7P61y/LjaEFH/Zip2n2kw914z4OP9HFG+U8gQwEhX+OvIYRaEKOEBUh/Z4KSy8Jog5wCdI8AtbvxUuqnS5dxK+2JszgnhI8kyTeZtv6Okuoi4rmfLoxT1KLNJDoCunfCIWlSjX7KCu8DoTSyTszqwh+RyexHKYctNyG3TwdxOn77NKNwlfERkfvq+eeF516KQK0oaNiT8DCDMFB5zPdjfZJS/2KYRE1nVpcZSdSjxZK2Jv5ZSy6btBb/XkRobN2/u8F4XPmYP+Cws/UtuXAZHULrqILRTsPZt8FBYDptYfd/8np3RfbqT/9RI4Nd6hlRkziaanovSXPGPUdjGXzz8MzGv3Y4Rec7ZEICPU7eO5ThpD7r6qsgY+pgvWH+K6snvNAp4JMOc8kwYi5ty38u2UOOmdJ58xnbvKN+eiVTYkiTIHOcK58YsnYjJnW7mPBJ7cuzS5tRuMjOE7uWLjWMoUpuWdPMUqYsKfxK9ftjIKby7XNJinl5PmdsK7OtEmjq3miDTZDwkHJKEyrz+29RSoHs0ihJZBJGkI=
-  - secure: EB6So4elp43a+ON4cBkh9B3ONHGIcwUn2CqnQKyQsplXPDnco14S2JlC5p9rfHXayA0QV+D4584E7dYZWk7JNdTTOJUOiQpGlsZk4oL6G6m1pRPNWGuyo5YpUmCEvOXizNM/W91627ewqXhQvGP1gww9mManpmkcd6Zr4czJGILNL8oahzyWWoRD34+ZsWYwoORq2tNRnK8vXszmNvEDraNLv1lgropVkX8MnAGpY2laF0104yrVZVtkdnAZZO2NRGnqpN5GnQ5pypkalagQlxfeZIT8quV2oOo2ysbzUee2r4D4lntBaKxyrR1+yNzY7kVaMlqBR84MXLJLgrw/xtAWNbVoLF2OHAA0w4d1GVyv8QmXPOmxdcG3a6yCS7z1bZkIwkxcas98YxD8x4oNVeu5Xvn/1d2cb1HHLFd1vsdqYt+kMLRkfDlJh3ft/kgcAZTFPGn3DQm78yKT8uweKGLuVDJIZqzK3RWy4LeeGvzMtakrN1x5WzymS27ZAawXUexLFk2Yc9vkOywCNjuQqT/ngG53Ds8pxQmoShHU9sh03ttd0AU86abIoya3k8jb3Af3dx9L1a7FqWbesyazfc/inLnD63nfcNIRqDgBRgKpx8KppUozY8xMUFb9aAZCxl1CWNsxlEfZDJI3tzNYp0SBHwtTe917UH8iwxqIaUI=
+  - secure: F3v8ZQ/48P8KrscQT+Uun7mZ5OK5S9GdLx+tDNwdaTP3Gyx5iA7cY8R6rDsp50dYOklRD+eja1/rSbEPaTswZp5mDQaOHcpwh0T/aHYdS2kjzMgdrNFFTVf5OD4i54vlez7ybLkMNPzkWQ6XCtK0c54oAjuneYAcD41masLnIMCUvdAoIORvqpUwNW1WsrNHxQKz297OnLV5s84/WbTlJMUAHL+RywXdDXFVFyC2bulP8p04LzKmwRmnXeSCtXNeSSPAlZ2kAg68VCY4iYLOXnvsEuKUnQkK0z8Kvw8QLVw3QoVtx+HZApEsePIkc6lUEUGEDCtClr22QMePWYt7NZGhl+hcywQZ2nwjQq42zuGC5IqFvD3Y2J0OPbTj+ezwff+QfNM+yUu20y8arys9gzAqNuWQ4MG8D8X1OjSSf13xP+pvM6CtHr7lijGt2G4X3vFTKB9APx7RzEEFnp2bdg9H768ZnKxFzE6MyX0hTwZnPSgNM8BvGCL3G4hZXj77gvlKXnyckDqKwfRpUjeR/9hgOd0tDmFwU3J+mIR7FSzIYuPV/bJRnuleE7/AVSPXjFSt9mHGi4H8O21HaL7t2sgjlfVWXC2dMfBGZois14srkLJl8r7BosS2065pxfYlO8j3MVzTxBFCw53PUqXFPaqj6xDyRjv+LFYxWT+aiN8=
+  - secure: w7j9HyqTOizLSbixK7sN9TxuYTWyOewPRKMYURcYwOqKqqUr4TvV69JgKdrEmnUkeevOYU00NKCjGJYC6+/WeaVv9dTCZDktbWJgagglYMRVa+fLXjbfB+HB82ZOCTb+zafyihv9n2vr1TNP5moKcppzq+fD//BRXhFfiXnHblX+aNWj0s3BDHBnbbA0ZozFP6oaNJon8U/bb1RAPDVOxKJuQkMplR2WwVNJ6/lbjG2X+d9k0oGtjn2pAkOGmkb2WZlLZog07jyuyvMIymIoa2qaEwSMcxaYA19TdgJFUP+vcK0/aX4/mYN/DSaowMQDKJosvjUSjEnzCVjD0A3J8niYiSGG4yQB2hyX5mfEw/BsjswTPI+mY/mC1jrm5QDig/seUWLJ/IWKjGK9b2OIjD+9qVHQub6/Budet7cijjtMQpyr674HYyHEKiLhH6CylIc9ct/08rK1uh6kxD3eAsWjgNWlfslc67YZ5ZUqX9E4PbJbFjPkzJtkMygvmcedrskLHfNsutWB32wUBbBY0iogUI4gcqCacK5S/pisDM6KQyzHelN6P2DID+w2YSZId5yVLH5caG1WzsaroJe5/Ip00gTJ47xDzThhZ6E+rARvPOWyKRvzh54wdMXArk+s1jlAH96q8nLFEKjxAbLk454ERl2wNGPFqMtTWKmVfvg=
