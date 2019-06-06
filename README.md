@@ -1,5 +1,5 @@
 # Terraform Provider - Validate
-[![Build Status](https://travis-ci.com/craigmonson/terraform-provider-validate.svg?branch=master)](https://travis-ci.com/craigmonson/terraform-provider-validate) [![Coverage Status](https://coveralls.io/repos/github/craigmonson/terraform-provider-validate/badge.svg?branch=master)](https://coveralls.io/github/craigmonson/terraform-provider-validate?branch=master) [![Release Badge](https://img.shields.io/github/release/craigmonson/terraform-provider-validate.svg)](https://github.com/craigmonson/terraform-provider-validate/releases/latest)
+[![Build Status](https://travis-ci.com/craigmonson/terraform-provider-validate.svg?branch=master)](https://travis-ci.com/craigmonson/terraform-provider-validate) [![Coverage Status](https://coveralls.io/repos/github/craigmonson/terraform-provider-validate/badge.svg?branch=master)](https://coveralls.io/github/craigmonson/terraform-provider-validate?branch=master) [![Go Report Card](https://goreportcard.com/badge/github.com/coveo/terraform-provider-servicenow)](https://goreportcard.com/report/github.com/coveo/terraform-provider-servicenow) [![Release Badge](https://img.shields.io/github/release/craigmonson/terraform-provider-validate.svg)](https://github.com/craigmonson/terraform-provider-validate/releases/latest)
 
 ## Maintainers
 
