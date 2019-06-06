@@ -11,8 +11,9 @@ install: false
 notifications:
   email: false
 script:
-- go test -v -covermode=count -coverprofile=coverage.out $HOME/gopath/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN
-- make build-all
+  - cd validate && go test -v -covermode=count -coverprofile=../coverage.out
+  - $HOME/gopath/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN
+  - make build-all
 deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
