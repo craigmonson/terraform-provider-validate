@@ -10,10 +10,12 @@ This provider plugin is maintained by Craig Monson
   * [Terraform](https://www.terraform.io/downloads.html) 0.11.x or greater
   * [Go](https://golang.org/doc/install) 1.11 (to build the provider plugin)
 
-## Usage
+## Installation
 
 To install, as this is a 3rd party plugin, you'll need to follow the directions
 [here](https://www.terraform.io/docs/configuration/providers.html#third-party-plugins).
+
+## Usage
 
 ```hcl
 provider "validate" {}
