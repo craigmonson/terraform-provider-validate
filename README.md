@@ -15,6 +15,11 @@ This provider plugin is maintained by Craig Monson
 To install, as this is a 3rd party plugin, you'll need to follow the directions
 [here](https://www.terraform.io/docs/configuration/providers.html#third-party-plugins).
 
+Basically, download the [latest](https://github.com/craigmonson/terraform-provider-validate/releases/latest), and place in your
+`$HOME/.terraform.d/plugins/<platform>` directory (for unix based systems), or `%APPDATA%\terraform.d\plugins` for windows.
+
+`terraform init` will pull from the above directory.
+
 ## Usage
 
 ```hcl
@@ -84,7 +89,7 @@ The following arguments are supported:
   * `val` - (Required) The value to be checked.  This should be a variable, and is expected to be a string.
   * `optional` - (Optional) (bool) (Default: false) If set to true, this will allow the check to be optional.  If it's empty, ie: "", then the check will pass, regardless if it passes the underlying check.
 
-At least one of these arguments must also exist, but combinations are possible (see conflict matrix):
+At least one of these arguments must also exist, but combinations are possible (see compatability matrix):
 
   * `exact` - (Optional) (a string) Check `val` is an exact match of this argument.
   * `not_exact` - (Optional) (a string) Check `val` can not match exactly this argument.
