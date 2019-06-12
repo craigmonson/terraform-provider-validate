@@ -134,7 +134,7 @@ To run the integration tests (check that it works through terraform itself), run
 ```
 make tf-test
 ```
-which will execute a terraform template with passinchecks.  Similarly, to execute a
+which will execute a terraform template with passing checks.  Similarly, to execute a
 terraform template with _failing_ checks, run:
 ```
 make tf-test-fail
