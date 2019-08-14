@@ -41,37 +41,37 @@ variable "test_regex" {
 }
 
 data "validate" "exact" {
-  val   = "${var.test_exact}"
+  val   = var.test_exact
   exact = "test_exact"
 }
 
 data "validate" "not_exact" {
-  val       = "${var.test_exact}"
+  val       = var.test_exact
   not_exact = "test_exact"
 }
 
 data "validate" "one_of" {
-  val    = "${var.test_one_of}"
+  val    = var.test_one_of
   one_of = ["test_one_of"]
 }
 
 data "validate" "not_one_of" {
-  val        = "${var.test_one_of}"
+  val        = var.test_one_of
   not_one_of = ["test_one_of"]
 }
 
 data "validate" "regex" {
-  val   = "${var.test_regex}"
+  val   = var.test_regex
   regex = "test_regex"
 }
 
 data "validate" "not_regex" {
-  val       = "${var.test_regex}"
+  val       = var.test_regex
   not_regex = "test_regex"
 }
 
 data "validate" "optional_exact" {
-  val      = "${var.test_optional_exact}"
+  val      = var.test_optional_exact
   exact    = "This variable is optional, so can be empty"
   optional = true
 }
