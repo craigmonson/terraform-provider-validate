@@ -26,17 +26,17 @@ Basically, download the [latest](https://github.com/craigmonson/terraform-provid
 provider "validate" {}
 
 variable "test_exact" {
-  type    = "string"
+  type    = string
   default = "test_exact"
 }
 
 variable "test_one_of" {
-  type    = "string"
+  type    = string
   default = "test_one_of"
 }
 
 variable "test_regex" {
-  type    = "string"
+  type    = string
   default = "^test_.*"
 }
 
