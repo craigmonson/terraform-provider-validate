@@ -16,7 +16,9 @@ To install, as this is a 3rd party plugin, you'll need to follow the directions
 [here](https://www.terraform.io/docs/configuration/providers.html#third-party-plugins).
 
 Basically, download the [latest](https://github.com/craigmonson/terraform-provider-validate/releases/latest), and place in your
-`$HOME/.terraform.d/plugins/<platform>` directory (for unix based systems), or `%APPDATA%\terraform.d\plugins` for windows.
+`$HOME/.terraform.d/plugins/<OS>_<ARCH>/` directory (for unix based systems), or `%APPDATA%\terraform.d\plugins\<OS>_<ARCH>` for windows.
+
+The file should be named: `terraform-provider-validate`
 
 `terraform init` will pull from the above directory.
 
