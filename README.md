@@ -22,6 +22,13 @@ The file should be named: `terraform-provider-validate`
 
 `terraform init` will pull from the above directory.
 
+Example: 
+download the binary for os-x, unzip, and make sure the file is saved as:
+`/Users/<USERNAME>/.terraform.d/plugins/darwin_amd64/terraform-provider-validate`
+
+Or, on windows (possibly):
+`C:\Users\<USERNAME>\AppData\Roaming\terraform.d\plugins\windows_amd64\terraform-provider-validate`
+
 ## Usage
 
 ```hcl
