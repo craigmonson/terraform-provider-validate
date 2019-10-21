@@ -26,19 +26,19 @@ var RegexCounter int
 var ExactCounter int
 var OneOfCounter int
 
-var RegexMocker = func(val, pattern string) error {
+var RegexMocker = func(val, pattern, error_msg string) error {
 	RegexCounter++
 
 	return nil
 }
 
-var ExactMocker = func(val, check string) error {
+var ExactMocker = func(val, check, error_msg string) error {
 	ExactCounter++
 
 	return nil
 }
 
-var OneOfMocker = func(val string, list []interface{}) error {
+var OneOfMocker = func(val string, list []interface{}, error_msg string) error {
 	OneOfCounter++
 
 	return nil

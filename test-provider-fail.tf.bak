@@ -1,6 +1,7 @@
 data "validate" "exact" {
   val   = "foo"
   exact = "bar"
+	error_msg = "This is a custom error message provided by `error_msg`"
 }
 
 data "validate" "one_of" {

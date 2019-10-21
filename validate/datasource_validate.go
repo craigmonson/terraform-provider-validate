@@ -1,6 +1,7 @@
 package validate
 
 import (
+	"errors"
 	"fmt"
 	"github.com/hashicorp/terraform/helper/schema"
 	"regexp"
@@ -67,6 +68,11 @@ func dataSourceValidateSchema() *schema.Resource {
 				Default:     false,
 				Description: "Allows this value to be empty: ''",
 			},
+			"error_msg": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Description: "Display this error instead of the default when a validation occurs.",
+			},
 		},
 	}
 }
@@ -85,32 +91,32 @@ func dataSourceTest(d *schema.ResourceData, meta interface{}) error {
 	for _, c_type := range check_types {
 		switch c_type {
 		case "exact":
-			err := checkExact(d.Get("val").(string), d.Get("exact").(string))
+			err := checkExact(d.Get("val").(string), d.Get("exact").(string), d.Get("error_msg").(string))
 			if err != nil {
 				errs = append(errs, err)
 			}
 		case "not_exact":
-			err := checkNotExact(d.Get("val").(string), d.Get("not_exact").(string))
+			err := checkNotExact(d.Get("val").(string), d.Get("not_exact").(string), d.Get("error_msg").(string))
 			if err != nil {
 				errs = append(errs, err)
 			}
 		case "one_of":
-			err := checkOneOf(d.Get("val").(string), d.Get("one_of").([]interface{}))
+			err := checkOneOf(d.Get("val").(string), d.Get("one_of").([]interface{}), d.Get("error_msg").(string))
 			if err != nil {
 				errs = append(errs, err)
 			}
 		case "not_one_of":
-			err := checkNotOneOf(d.Get("val").(string), d.Get("not_one_of").([]interface{}))
+			err := checkNotOneOf(d.Get("val").(string), d.Get("not_one_of").([]interface{}), d.Get("error_msg").(string))
 			if err != nil {
 				errs = append(errs, err)
 			}
 		case "regex":
-			err := checkRegex(d.Get("val").(string), d.Get("regex").(string))
+			err := checkRegex(d.Get("val").(string), d.Get("regex").(string), d.Get("error_msg").(string))
 			if err != nil {
 				errs = append(errs, err)
 			}
 		case "not_regex":
-			err := checkNotRegex(d.Get("val").(string), d.Get("not_regex").(string))
+			err := checkNotRegex(d.Get("val").(string), d.Get("not_regex").(string), d.Get("error_msg").(string))
 			if err != nil {
 				errs = append(errs, err)
 			}
@@ -137,35 +143,47 @@ var isOptionalCheck = func(val string, optional bool) bool {
 	return false
 }
 
-var checkExact = func(val, check string) error {
+var checkExact = func(val, check, error_msg string) error {
 	if val != check {
+		if error_msg != "" {
+			return errors.New(error_msg)
+		}
 		return fmt.Errorf("val: '%s' does not match '%s' for exact", val, check)
 	}
 
 	return nil
 }
 
-var checkNotExact = func(val, check string) error {
+var checkNotExact = func(val, check, error_msg string) error {
 	if val == check {
+		if error_msg != "" {
+			return errors.New(error_msg)
+		}
 		return fmt.Errorf("val: '%s' matched '%s' for not_exact", val, check)
 	}
 
 	return nil
 }
 
-var checkOneOf = func(val string, list []interface{}) error {
+var checkOneOf = func(val string, list []interface{}, error_msg string) error {
 	for _, c := range list {
 		if val == c.(string) {
 			return nil
 		}
 	}
 
+	if error_msg != "" {
+		return errors.New(error_msg)
+	}
 	return fmt.Errorf("val '%s' is not in one_of list: %v", val, list)
 }
 
-var checkNotOneOf = func(val string, list []interface{}) error {
+var checkNotOneOf = func(val string, list []interface{}, error_msg string) error {
 	for _, c := range list {
 		if val == c.(string) {
+			if error_msg != "" {
+				return errors.New(error_msg)
+			}
 			return fmt.Errorf("val '%s' is in not_one_of list: %v", val, list)
 		}
 	}
@@ -173,7 +191,7 @@ var checkNotOneOf = func(val string, list []interface{}) error {
 	return nil
 }
 
-var checkRegex = func(val, pattern string) error {
+var checkRegex = func(val, pattern, error_msg string) error {
 	reg, err := regexp.Compile(pattern)
 	if err != nil {
 		return err
@@ -183,16 +201,22 @@ var checkRegex = func(val, pattern string) error {
 		return nil
 	}
 
+	if error_msg != "" {
+		return errors.New(error_msg)
+	}
 	return fmt.Errorf("val '%s' does not match the regex '%s'", val, pattern)
 }
 
-var checkNotRegex = func(val, pattern string) error {
+var checkNotRegex = func(val, pattern, error_msg string) error {
 	reg, err := regexp.Compile(pattern)
 	if err != nil {
 		return err
 	}
 
 	if reg.MatchString(val) {
+		if error_msg != "" {
+			return errors.New(error_msg)
+		}
 		return fmt.Errorf("val '%s' matched not_regex '%s'", val, pattern)
 	}
 

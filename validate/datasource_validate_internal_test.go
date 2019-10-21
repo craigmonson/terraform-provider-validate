@@ -126,8 +126,11 @@ func TestGetCheckTypesNone(t *testing.T) {
 	}
 }
 
+//            //
+// checkExact //
+//            //
 func TestExactPass(t *testing.T) {
-	err := checkExact("foo", "foo")
+	err := checkExact("foo", "foo", "")
 
 	if err != nil {
 		t.Errorf("Exact check failed: 'foo' vs 'foo'")
@@ -135,15 +138,26 @@ func TestExactPass(t *testing.T) {
 }
 
 func TestExactFail(t *testing.T) {
-	err := checkExact("foo", "bar")
+	err := checkExact("foo", "bar", "")
 
 	if err == nil {
 		t.Errorf("Exact check did not fail: 'foo' vs 'bar'")
 	}
 }
 
+func TestExactFailErrorMsg(t *testing.T) {
+	err := checkExact("foo", "bar", "my error")
+
+	if err.Error() != "my error" {
+		t.Errorf("Exact check did not fail with defined error_msg")
+	}
+}
+
+//               //
+// checkNotExact //
+//               //
 func TestNotExactPass(t *testing.T) {
-	err := checkNotExact("foo", "bar")
+	err := checkNotExact("foo", "bar", "")
 
 	if err != nil {
 		t.Errorf("NotExact check failed: 'foo' vs 'bar'")
@@ -151,13 +165,24 @@ func TestNotExactPass(t *testing.T) {
 }
 
 func TestNotExactFail(t *testing.T) {
-	err := checkNotExact("foo", "foo")
+	err := checkNotExact("foo", "foo", "")
 
 	if err == nil {
 		t.Errorf("NotExact check failed: 'foo' vs 'foo'")
 	}
 }
 
+func TestNotExactFailErrorMsg(t *testing.T) {
+	err := checkNotExact("foo", "foo", "my error")
+
+	if err.Error() != "my error" {
+		t.Errorf("NotExact check did not fail with defined error_msg")
+	}
+}
+
+//            //
+// checkOneOf //
+//            //
 func TestCheckOneOfPass(t *testing.T) {
 	res := dataSourceValidateSchema()
 	m := make(map[string]interface{}, 2)
@@ -166,7 +191,7 @@ func TestCheckOneOfPass(t *testing.T) {
 	m["one_of"] = []string{"foo"}
 	res_data := th.GetResourceData(t, m, res)
 
-	err := checkOneOf("foo", res_data.Get("one_of").([]interface{}))
+	err := checkOneOf("foo", res_data.Get("one_of").([]interface{}), "")
 
 	if err != nil {
 		t.Error("one_of check failed: 'foo' vs '[foo]'")
@@ -181,13 +206,31 @@ func TestCheckOneOfFail(t *testing.T) {
 	m["one_of"] = []string{"bar"}
 	res_data := th.GetResourceData(t, m, res)
 
-	err := checkOneOf("foo", res_data.Get("one_of").([]interface{}))
+	err := checkOneOf("foo", res_data.Get("one_of").([]interface{}), "")
 
 	if err == nil {
 		t.Error("one_of check did not fail: 'foo' vs '[bar]'")
 	}
 }
 
+func TestCheckOneOfFailErrorMsg(t *testing.T) {
+	res := dataSourceValidateSchema()
+	m := make(map[string]interface{}, 2)
+
+	m["val"] = "foo"
+	m["one_of"] = []string{"bar"}
+	res_data := th.GetResourceData(t, m, res)
+
+	err := checkOneOf("foo", res_data.Get("one_of").([]interface{}), "my error")
+
+	if err.Error() != "my error" {
+		t.Errorf("one_of check did not fail with defined error_msg")
+	}
+}
+
+//               //
+// checkNotOneOf //
+//               //
 func TestCheckNotOneOfPass(t *testing.T) {
 	res := dataSourceValidateSchema()
 	m := make(map[string]interface{}, 2)
@@ -196,7 +239,7 @@ func TestCheckNotOneOfPass(t *testing.T) {
 	m["not_one_of"] = []string{"bar"}
 	res_data := th.GetResourceData(t, m, res)
 
-	err := checkNotOneOf("foo", res_data.Get("not_one_of").([]interface{}))
+	err := checkNotOneOf("foo", res_data.Get("not_one_of").([]interface{}), "")
 
 	if err != nil {
 		t.Error("not_one_of check failed: 'foo' vs '[bar]' should not error")
@@ -211,15 +254,33 @@ func TestCheckNotOneOfFail(t *testing.T) {
 	m["not_one_of"] = []string{"foo"}
 	res_data := th.GetResourceData(t, m, res)
 
-	err := checkNotOneOf("foo", res_data.Get("not_one_of").([]interface{}))
+	err := checkNotOneOf("foo", res_data.Get("not_one_of").([]interface{}), "")
 
 	if err == nil {
 		t.Error("not_one_of check should error: 'foo' vs '[foo]'")
 	}
 }
 
+func TestCheckNotOneOfFailErrorMsg(t *testing.T) {
+	res := dataSourceValidateSchema()
+	m := make(map[string]interface{}, 2)
+
+	m["val"] = "foo"
+	m["not_one_of"] = []string{"foo"}
+	res_data := th.GetResourceData(t, m, res)
+
+	err := checkNotOneOf("foo", res_data.Get("not_one_of").([]interface{}), "my error")
+
+	if err.Error() != "my error" {
+		t.Errorf("one_of check did not fail with defined error_msg")
+	}
+}
+
+//            //
+// checkRegex //
+//            //
 func TestCheckRegexPass(t *testing.T) {
-	err := checkRegex("foo", "f..")
+	err := checkRegex("foo", "f..", "")
 
 	if err != nil {
 		t.Error("regex check failed: 'foo' vs '/foo/'")
@@ -227,15 +288,34 @@ func TestCheckRegexPass(t *testing.T) {
 }
 
 func TestCheckRegexFail(t *testing.T) {
-	err := checkRegex("foo", "b..")
+	err := checkRegex("foo", "b..", "")
 
 	if err == nil {
 		t.Error("regex check did not fail: 'foo' vs 'b..'")
 	}
 }
 
+func TestCheckRegexBadRegex(t *testing.T) {
+	err := checkRegex("foo", "/[0-9]++/", "")
+
+	if err == nil {
+		t.Error("regex with bad pattern did not fail")
+	}
+}
+
+func TestCheckRegexFailErrorMsg(t *testing.T) {
+	err := checkRegex("foo", "b..", "my error")
+
+	if err.Error() != "my error" {
+		t.Errorf("one_of check did not fail with defined error_msg")
+	}
+}
+
+//               //
+// checkNotRegex //
+//               //
 func TestCheckNotRegexPass(t *testing.T) {
-	err := checkNotRegex("foo", "b..")
+	err := checkNotRegex("foo", "b..", "")
 
 	if err != nil {
 		t.Error("not_regex check failed: 'foo' vs 'b..'")
@@ -243,26 +323,26 @@ func TestCheckNotRegexPass(t *testing.T) {
 }
 
 func TestCheckNotRegexFail(t *testing.T) {
-	err := checkNotRegex("foo", "f..")
+	err := checkNotRegex("foo", "f..", "")
 
 	if err == nil {
 		t.Error("not_regex check did not fail: 'foo' vs 'f..'")
 	}
 }
 
-func TestCheckRegexBadRegex(t *testing.T) {
-	err := checkRegex("foo", "/[0-9]++/")
-
-	if err == nil {
-		t.Error("regex with bad pattern did not fail")
-	}
-}
-
 func TestCheckNotRegexBadRegex(t *testing.T) {
-	err := checkNotRegex("foo", "/[0-9]++/")
+	err := checkNotRegex("foo", "/[0-9]++/", "")
 
 	if err == nil {
 		t.Error("not_regex with bad pattern did not fail")
+	}
+}
+
+func TestCheckNotRegexFailErrorMsg(t *testing.T) {
+	err := checkNotRegex("foo", "f..", "my error")
+
+	if err.Error() != "my error" {
+		t.Errorf("one_of check did not fail with defined error_msg")
 	}
 }
 

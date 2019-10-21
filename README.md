@@ -84,6 +84,12 @@ data "validate" "optional_exact" {
   exact    = "This variable is optional, so can be empty"
   optional = true
 }
+
+data "validate" "customized_error_message" {
+  val       = "This will fail"
+  exact     = "Fail me"
+  error_msg = "This is a custom error message that will be displayed when this validation fails"
+}
 ```
 
 The `validate` data source will validate input values against a validation check.  When
@@ -95,8 +101,9 @@ example) meet a desired set of criteria.
 
 The following arguments are supported:
 
-  * `val` - (Required) The value to be checked.  This should be a variable, and is expected to be a string.
+  * `val` - (Required) (string) The value to be checked.  This should be a variable.
   * `optional` - (Optional) (bool) (Default: false) If set to true, this will allow the check to be optional.  If it's empty, ie: "", then the check will pass, regardless if it passes the underlying check.
+  * `error_msg` - (Optional) (string) This message will be displayed instead of the default one if this validation check fails.  This allows more customized error outputs.
 
 At least one of these arguments must also exist, but combinations are possible (see compatability matrix):
 
