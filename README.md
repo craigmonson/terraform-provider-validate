@@ -15,19 +15,19 @@ This provider plugin is maintained by Craig Monson
 To install, as this is a 3rd party plugin, you'll need to follow the directions
 [here](https://www.terraform.io/docs/configuration/providers.html#third-party-plugins).
 
-Basically, download the [latest](https://github.com/craigmonson/terraform-provider-validate/releases/latest), and place in your
+Basically, download the [latest](https://github.com/craigmonson/terraform-provider-validate/releases/latest), decompress it, and place the executable in your
 `$HOME/.terraform.d/plugins/<OS>_<ARCH>/` directory (for unix based systems), or `%APPDATA%\terraform.d\plugins\<OS>_<ARCH>` for windows.
 
-The file should be named: `terraform-provider-validate`
+The file should be named: `terraform-provider-validate_vX.X.X (where X.X.X matches the version) or `terraform-provider-validate_vX.X.X.exe` for windows.
 
 `terraform init` will pull from the above directory.
 
 Example: 
 download the binary for os-x, unzip, and make sure the file is saved as:
-`/Users/<USERNAME>/.terraform.d/plugins/darwin_amd64/terraform-provider-validate`
+`/Users/<USERNAME>/.terraform.d/plugins/darwin_amd64/terraform-provider-validate_vX.X.X`
 
 Or, on windows (possibly):
-`C:\Users\<USERNAME>\AppData\Roaming\terraform.d\plugins\windows_amd64\terraform-provider-validate`
+`C:\Users\<USERNAME>\AppData\Roaming\terraform.d\plugins\windows_amd64\terraform-provider-validate_vX.X.X.exe`
 
 ## Usage
 
