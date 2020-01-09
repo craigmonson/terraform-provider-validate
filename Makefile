@@ -1,3 +1,6 @@
+LATEST_TAG=$(shell git describe --abbrev=0)
+EXE_FILE_NAME=terraform-provider-validate_$(LATEST_TAG)
+
 .PHONY: help
 help:  ## print out help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -10,36 +13,36 @@ test-cover:
 test: ## run 'go test'
 	cd validate && go test
 
-.PHONY: build         # build the provider as terraform-provider-validate
-build:
+.PHONY: build
+build: ## build the provider as terraform-provider-validate
 	go build -o terraform-provider-validate
 
 .PHONY: build-darwin
 build-darwin: ## go build darwin amd64 and 386 versions
 	GOOS=darwin GOARCH=amd64 go build -o terraform-provider-validate-darwin-amd64
-	cp terraform-provider-validate-darwin-amd64 terraform-provider-validate
-	tar -zcvf terraform-provider-validate.darwin-amd64.tar.gz terraform-provider-validate
+	cp terraform-provider-validate-darwin-amd64 $(EXE_FILE_NAME)
+	tar -zcvf terraform-provider-validate.darwin-amd64.tar.gz $(EXE_FILE_NAME)
 	GOOS=darwin GOARCH=386 go build -o terraform-provider-validate-darwin-386
-	cp terraform-provider-validate-darwin-386 terraform-provider-validate
-	tar -zcvf terraform-provider-validate.darwin-386.tar.gz terraform-provider-validate
+	cp terraform-provider-validate-darwin-386 $(EXE_FILE_NAME)
+	tar -zcvf terraform-provider-validate.darwin-386.tar.gz $(EXE_FILE_NAME)
 
 .PHONY: build-linux
 build-linux: ## go build linux amd64 and 386 versions
 	GOOS=linux GOARCH=amd64 go build -o terraform-provider-validate-linux-amd64
-	cp terraform-provider-validate-linux-amd64 terraform-provider-validate
-	tar -zcvf terraform-provider-validate.linux-amd64.tar.gz terraform-provider-validate
+	cp terraform-provider-validate-linux-amd64 $(EXE_FILE_NAME)
+	tar -zcvf terraform-provider-validate.linux-amd64.tar.gz $(EXE_FILE_NAME)
 	GOOS=linux GOARCH=386 go build -o terraform-provider-validate-linux-386
-	cp terraform-provider-validate-linux-386 terraform-provider-validate
-	tar -zcvf terraform-provider-validate.linux-386.tar.gz terraform-provider-validate
+	cp terraform-provider-validate-linux-386 $(EXE_FILE_NAME)
+	tar -zcvf terraform-provider-validate.linux-386.tar.gz $(EXE_FILE_NAME)
 
 .PHONY: build-doz
 build-doz: ## go build windows amd64 and 386 versions
 	GOOS=windows GOARCH=amd64 go build -o terraform-provider-validate-windows-amd64.exe
-	cp terraform-provider-validate-windows-amd64.exe terraform-provider-validate.exe
-	tar -zcvf terraform-provider-validate.windows-amd64.tar.gz terraform-provider-validate.exe
+	cp terraform-provider-validate-windows-amd64.exe $(EXE_FILE_NAME).exe
+	tar -zcvf terraform-provider-validate.windows-amd64.tar.gz $(EXE_FILE_NAME).exe
 	GOOS=windows GOARCH=386 go build -o terraform-provider-validate-windows-386.exe
-	cp terraform-provider-validate-windows-386.exe terraform-provider-validate.exe
-	tar -zcvf terraform-provider-validate.windows-386.tar.gz terraform-provider-validate.exe
+	cp terraform-provider-validate-windows-386.exe $(EXE_FILE_NAME).exe
+	tar -zcvf terraform-provider-validate.windows-386.tar.gz $(EXE_FILE_NAME).exe
 
 .PHONY: build-all
 build-all: build-darwin build-linux build-doz ## run build-darwin build-linux and build-doz
