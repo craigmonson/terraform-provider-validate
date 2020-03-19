@@ -18,7 +18,7 @@ To install, as this is a 3rd party plugin, you'll need to follow the directions
 Basically, download the [latest](https://github.com/craigmonson/terraform-provider-validate/releases/latest), decompress it, and place the executable in your
 `$HOME/.terraform.d/plugins/<OS>_<ARCH>/` directory (for unix based systems), or `%APPDATA%\terraform.d\plugins\<OS>_<ARCH>` for windows.
 
-The file should be named: `terraform-provider-validate_vX.X.X (where X.X.X matches the version) or `terraform-provider-validate_vX.X.X.exe` for windows.
+The file should be named: `terraform-provider-validate_vX.X.X` for \*nix versions or `terraform-provider-validate_vX.X.X.exe` for windows.  (where X.X.X matches the version) 
 
 `terraform init` will pull from the above directory.
 
@@ -34,61 +34,64 @@ Or, on windows (possibly):
 ```hcl
 provider "validate" {}
 
-variable "test_exact" {
+variable "test_string" {
   type    = string
-  default = "test_exact"
+  default = "Test String"
 }
 
-variable "test_one_of" {
-  type    = string
-  default = "test_one_of"
-}
 
-variable "test_regex" {
-  type    = string
-  default = "^test_.*"
-}
+##             ##
+## Validations ##
+##             ##
 
+# Pass if the strings are an exact match.
 data "validate" "exact" {
-  val   = var.test_exact
-  exact = "test_exact"
+  val   = var.test_string
+  exact = "Test String"
 }
 
+# Pass if the strings do NOT match
 data "validate" "not_exact" {
-  val       = var.test_exact
-  not_exact = "test_exact"
+  val       = var.test_string
+  not_exact = "This will only pass if var.test_exact doesn't match this"
 }
 
+# Pass if var.test_string matches one in the list
 data "validate" "one_of" {
-  val    = var.test_one_of
-  one_of = ["test_one_of"]
+  val    = var.test_string
+  one_of = ["List", "of", "Possible", "Test String", "s"]
 }
 
+# Pass if var.test_string is NOT in the list
 data "validate" "not_one_of" {
-  val        = var.test_one_of
-  not_one_of = ["test_one_of"]
+  val        = var.test_string
+  not_one_of = ["Not", "in", "this", "list"]
 }
 
+# Pass if the regex is matched (NOTE: Must follow HCL syntax)
 data "validate" "regex" {
-  val   = var.test_regex
-  regex = "test_regex"
+  val   = var.test_string
+  regex = "^Test"
 }
 
+# Pass if it does NOT match the regex
 data "validate" "not_regex" {
-  val       = var.test_regex
-  not_regex = "test_regex"
+  val       = var.test_string
+  not_regex = "^No [m|M]atch"
 }
 
+# This validation is optional, so it's ok if val is empty
 data "validate" "optional_exact" {
-  val      = var.test_optional_exact
+  val      = ""
   exact    = "This variable is optional, so can be empty"
   optional = true
 }
 
+# Customize the error message to better describe a failed validation
 data "validate" "customized_error_message" {
-  val       = "This will fail"
+  val       = var.test_string
   exact     = "Fail me"
-  error_msg = "This is a custom error message that will be displayed when this validation fails"
+  error_msg = "'${var.test_string}' did not match 'Fail me'"
 }
 ```
 
